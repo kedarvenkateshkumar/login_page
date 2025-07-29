@@ -11,4 +11,4 @@ const UserSchema = new mongoose.Schema({
 
 const Users = mongoose.model("RECEVED",UserSchema);
 
-module.exports = User
+module.exports = Users
