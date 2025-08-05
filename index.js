@@ -25,6 +25,7 @@ app.post('/register', async (req, res) => {
 
     // 👉 Check if both username and password are provided
     if (!username || !password) {
+        console.log("Username and password are required")
         return res.status(400).json({ error: "Username and password are required" });
     }
 
@@ -32,13 +33,14 @@ app.post('/register', async (req, res) => {
         // Optional: Check if username already exists
         const existingUser = await User.findOne({ username });
         if (existingUser) {
+            console.log("User already taken.....")
             return res.status(409).json({ error: "Username already taken" });
         }
 
         const hash = await bcrypt.hash(password, 10);
         const newUser = new User({ username, password: hash });
         await newUser.save();
-
+        console.log("User registerd successfully.........")
         res.status(201).json({ message: "User registered successfully" });
     } catch (err) {
         res.status(500).json({ error: "Server error: " + err.message });
