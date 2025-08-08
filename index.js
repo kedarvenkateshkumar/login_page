@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/schema");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 require("dotenv").config({path:"./config/.env"});
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+
 
 const MONGO_URL = process.env.MONGO_URL;
 const port = process.env.PORT || 3000;
@@ -72,8 +75,8 @@ app.post('/login', async (req, res) => {
 
 });
 app.get("/data",async (req,res) =>{
-    const data = await User.find()
-    res.json(data)
+    const users = await User.find({}, "username password")
+    res.json(users)
 })
 app.listen(port, () =>{
     console.log("SERVER IS RUNNING.........🚀")
